@@ -121,7 +121,7 @@ jobs:
         run: |
           $env:path = "${{ env.qt_path }}/bin;$env:path"
           aria2c https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/refs/tags/release-${{ env.qbt_version }}.tar.gz
-          tar -xf release-${{ env.qbt_version }}.tar.gz
+          tar -xf qBittorrent-Enhanced-Edition-release-${{ env.qbt_version }}.tar.gz
           cd qBittorrent-Enhanced-Edition-release-${{ env.qbt_version }}
           cmake `
             -B build `
