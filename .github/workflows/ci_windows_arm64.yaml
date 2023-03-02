@@ -1,6 +1,7 @@
-name: Build for Windows ARM64
+name: Build for Windows on Arm
 
 on:
+  workflow_dispatch:
   push:
     tags:
     - '*'
@@ -14,7 +15,7 @@ jobs:
       libtorrent_path: "${{ github.workspace }}/libtorrent-msvc-arm64"
       qt_path: "${{ github.workspace }}/../qt-msvc-arm64"
       libt_version: "2.0.8"
-      qbt_version: "4.5.2"
+      qbt_version: "4.5.2.10"
       qt_version: "6.4.2"
 
     steps:
@@ -116,12 +117,12 @@ jobs:
           cmake --build build
           cmake --install build
           
-      - name: Build qBittorrent
+      - name: Build qBittorrentee
         run: |
           $env:path = "${{ env.qt_path }}/bin;$env:path"
-          aria2c http://prdownloads.sourceforge.net/qbittorrent/qbittorrent/qbittorrent-${{ env.qbt_version }}/qbittorrent-${{ env.qbt_version }}.tar.gz
-          tar -xf qbittorrent-${{ env.qbt_version }}.tar.gz
-          cd qbittorrent-${{ env.qbt_version }}
+          aria2c https://github.com/c0re100/qBittorrent-Enhanced-Edition/archive/refs/tags/release-${{ env.qbt_version }}.tar.gz
+          tar -xf release-${{ env.qbt_version }}.tar.gz
+          cd qBittorrent-Enhanced-Edition-release-${{ env.qbt_version }}
           cmake `
             -B build `
             -G "Ninja" `
@@ -137,16 +138,16 @@ jobs:
       - name: Prepare build artifacts
         run: |
           mkdir upload
-          copy qbittorrent-${{ env.qbt_version }}/build/qbittorrent.exe upload
-          copy qbittorrent-${{ env.qbt_version }}/dist/windows/qt.conf upload
+          copy qbittorrentee-${{ env.qbt_version }}/build/qbittorrent.exe upload
+          copy qbittorrentee-${{ env.qbt_version }}/dist/windows/qt.conf upload
           cd upload
-          7z a qbittorrent_${{ env.qbt_version }}_arm64.zip *
-          mv qbittorrent_${{ env.qbt_version }}_arm64.zip ..
+          7z a qbittorrentee_${{ env.qbt_version }}_arm64.zip *
+          mv qbittorrentee_${{ env.qbt_version }}_arm64.zip ..
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: qBittorrent_${{ env.qbt_version }}_arm64
+          name: qBittorrentee_${{ env.qbt_version }}_arm64
           path: upload
      
       - name: Batch release
@@ -154,4 +155,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: qbittorrent_${{ env.qbt_version }}_arm64.zip
+          files: qbittorrentee_${{ env.qbt_version }}_arm64.zip
