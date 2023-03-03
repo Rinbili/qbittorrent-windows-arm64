@@ -138,16 +138,16 @@ jobs:
       - name: Prepare build artifacts
         run: |
           mkdir upload
-          copy qbittorrentee-${{ env.qbt_version }}/build/qbittorrent.exe upload
-          copy qbittorrentee-${{ env.qbt_version }}/dist/windows/qt.conf upload
+          copy qBittorrent-Enhanced-Edition-release-${{ env.qbt_version }}/build/qbittorrent.exe upload
+          copy qBittorrent-Enhanced-Edition-release-${{ env.qbt_version }}/dist/windows/qt.conf upload
           cd upload
-          7z a qbittorrentee_${{ env.qbt_version }}_arm64.zip *
-          mv qbittorrentee_${{ env.qbt_version }}_arm64.zip ..
+          7z a qBittorrent-Enhanced-Edition-release-{{ env.qbt_version }}_arm64.zip *
+          mv qBittorrent-Enhanced-Edition-release-{{ env.qbt_version }}_arm64.zip ..
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: qBittorrentee_${{ env.qbt_version }}_arm64
+          name: qBittorrent-Enhanced-Edition-release-${{ env.qbt_version }}_arm64
           path: upload
      
       - name: Batch release
@@ -155,4 +155,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: qbittorrentee_${{ env.qbt_version }}_arm64.zip
+          files: qBittorrent-Enhanced-Edition-release-${{ env.qbt_version }}_arm64.zip
